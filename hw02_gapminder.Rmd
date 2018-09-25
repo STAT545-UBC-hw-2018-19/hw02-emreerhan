@@ -1,0 +1,109 @@
+---
+title: "hw02_gapminder"
+author: "Emre"
+date: '2018-09-24'
+output: github_document
+---
+
+```{r}
+library('tidyverse')
+library('gapminder')
+library('ggplot2')
+```
+
+## Smelling the data
+
+### Is it a data.frame, a matrix, a vector, a list?
+```{r}
+typeof(gapminder)
+```
+`gapminder` is of type list.
+
+### What is its class?
+
+```{r}
+class(gapminder)
+```
+`gapminder` is a tibble, which is a [modern take on data frames](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html)
+
+### How many variables/columns?
+```{r}
+ncol(gapminder)
+```
+`gapminder` has 6 columns.
+
+### How many rows/observations?
+```{r}
+nrow(gapminder)
+```
+There are 1704 rows.
+
+### Can you get these facts about “extent” or “size” in more than one way? Can you imagine different functions being useful in different contexts?
+
+Yes there are many different ways to get the shape/size/dimensions/extent of `gapminder`. I've provided some examples below. Some of the options are better when the output is required for another part of code, and other methods are better when you want to view the result.
+```{r}
+str(gapminder)
+```
+```{r}
+length(gapminder)
+```
+```{r}
+dim(gapminder)
+```
+
+### What data type is each variable?
+```{r}
+sapply(gapminder, typeof)
+```
+`country`: integer
+
+`continent`: integer
+
+`year`: integer
+
+`lifeExp`: double
+
+`pop`: integer
+
+`gdpPercap`: double
+
+## Explore individual variables
+
+### Exploring `continent`
+
+#### What are possible values (or range, whichever is appropriate) of each variable?
+```{r}
+unique(gapminder$continent)
+```
+
+#### What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
+```{r}
+ggplot(gapminder, aes(continent)) +
+  geom_histogram(stat = 'count')
+```
+Africa is the most common continent, while Oceania is the least common. The spread and distribution are described in the above plot.
+
+### Exploring `gdpPercap`
+
+#### What are possible values (or range, whichever is appropriate) of each variable?
+```{r}
+range(gapminder$gdpPercap)
+```
+The minimum `gdpPercap` is 241.17 and the maximum is 113523.13
+
+#### What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
+```{r}
+ggplot(gapminder, aes(gdpPercap)) +
+  geom_histogram()
+```
+The distribution decays exponentially.
+```{r}
+ggplot(gapminder, aes(x = '', y = gdpPercap)) +
+  geom_boxplot()
+```
+```{r}
+sd(gapminder$gdpPercap)
+```
+The standard deviation is 9857.455
+
+### Exploring various plot types
