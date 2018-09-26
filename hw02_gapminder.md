@@ -1,4 +1,4 @@
-hw02\_gapminder
+Homework 2 - Exploring `gapminder` with `dplyr` and `ggplot2`
 ================
 Emre
 2018-09-24
