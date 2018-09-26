@@ -145,6 +145,7 @@ ggplot(gapminder, aes(continent)) +
     ## Warning: Ignoring unknown parameters: binwidth, bins, pad
 
 ![](hw02_gapminder_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
 Africa is the most common continent, while Oceania is the least common.
 The spread and distribution are described in the above
 plot.
@@ -169,8 +170,9 @@ ggplot(gapminder, aes(gdpPercap)) +
   geom_histogram(bins=25)
 ```
 
-![](hw02_gapminder_files/figure-gfm/unnamed-chunk-13-1.png)<!-- --> The
-distribution decays exponentially.
+![](hw02_gapminder_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+The distribution decays exponentially.
 
 ``` r
 ggplot(gapminder, aes(x = '', y = gdpPercap)) +
@@ -185,7 +187,7 @@ sd(gapminder$gdpPercap)
 
     ## [1] 9857.455
 
-The standard deviation is 9857.455
+The spread can be described by the standard deviation, which is 9857.455
 
 ### Exploring various plot types
 
@@ -215,7 +217,8 @@ gapminder %>%
 ```
 
 ![](hw02_gapminder_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
-\#\#\# Using `select` and `filter` with piping into `ggplot`
+
+### Using `select` and `filter` with piping into `ggplot`
 
 ``` r
 gapminder %>%
@@ -238,7 +241,8 @@ gapminder %>%
 ```
 
 ![](hw02_gapminder_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
-\#\#\# But I want to do more\!
+
+### But I want to do more\!
 
 ``` r
 filter(gapminder, country == c("Rwanda", "Afghanistan"))
@@ -262,6 +266,26 @@ filter(gapminder, country == c("Rwanda", "Afghanistan"))
 
 ``` r
 filter(gapminder, country=='Rwanda' | country=='Afghanistan')
+```
+
+    ## # A tibble: 24 x 6
+    ##    country     continent  year lifeExp      pop gdpPercap
+    ##    <fct>       <fct>     <int>   <dbl>    <int>     <dbl>
+    ##  1 Afghanistan Asia       1952    28.8  8425333      779.
+    ##  2 Afghanistan Asia       1957    30.3  9240934      821.
+    ##  3 Afghanistan Asia       1962    32.0 10267083      853.
+    ##  4 Afghanistan Asia       1967    34.0 11537966      836.
+    ##  5 Afghanistan Asia       1972    36.1 13079460      740.
+    ##  6 Afghanistan Asia       1977    38.4 14880372      786.
+    ##  7 Afghanistan Asia       1982    39.9 12881816      978.
+    ##  8 Afghanistan Asia       1987    40.8 13867957      852.
+    ##  9 Afghanistan Asia       1992    41.7 16317921      649.
+    ## 10 Afghanistan Asia       1997    41.8 22227415      635.
+    ## # ... with 14 more rows
+
+``` r
+# OR
+filter(gapminder, country %in% c('Rwanda', 'Afghanistan'))
 ```
 
     ## # A tibble: 24 x 6

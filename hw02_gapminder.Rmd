@@ -81,6 +81,7 @@ unique(gapminder$continent)
 ggplot(gapminder, aes(continent)) +
   geom_histogram(stat = 'count')
 ```
+
 Africa is the most common continent, while Oceania is the least common. The spread and distribution are described in the above plot.
 
 ### Exploring `gdpPercap`
@@ -89,6 +90,7 @@ Africa is the most common continent, while Oceania is the least common. The spre
 ```{r}
 range(gapminder$gdpPercap)
 ```
+
 The minimum `gdpPercap` is 241.17 and the maximum is 113523.13
 
 #### What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
@@ -96,6 +98,7 @@ The minimum `gdpPercap` is 241.17 and the maximum is 113523.13
 ggplot(gapminder, aes(gdpPercap)) +
   geom_histogram(bins=25)
 ```
+
 The distribution decays exponentially.
 ```{r}
 ggplot(gapminder, aes(x = '', y = gdpPercap)) +
@@ -104,7 +107,8 @@ ggplot(gapminder, aes(x = '', y = gdpPercap)) +
 ```{r}
 sd(gapminder$gdpPercap)
 ```
-The standard deviation is 9857.455
+
+The spread can be described by the standard deviation, which is 9857.455
 
 ### Exploring various plot types
 ```{r}
@@ -123,6 +127,7 @@ gapminder %>%
   ggplot(aes(continent, lifeExp)) +
   geom_boxplot()
 ```
+
 ### Using `select` and `filter` with piping into `ggplot`
 
 ```{r}
@@ -133,6 +138,7 @@ gapminder %>%
   scale_y_log10() +
   geom_boxplot()
 ```
+
 ```{r}
 gapminder %>%
   select(c(country, pop, gdpPercap, year)) %>%
@@ -141,10 +147,22 @@ gapminder %>%
   ggplot(aes(country, pop)) +
   geom_point()
 ```
+
 ### But I want to do more!
 ```{r}
 filter(gapminder, country == c("Rwanda", "Afghanistan"))
 ```
+
+The above code should be:
 ```{r}
 filter(gapminder, country=='Rwanda' | country=='Afghanistan')
+# OR
+filter(gapminder, country %in% c('Rwanda', 'Afghanistan'))
+```
+
+Let's view that filter using `kable`:
+
+```{r}
+library('knitr')
+kable(filter(gapminder, country %in% c('Rwanda', 'Afghanistan')))
 ```
