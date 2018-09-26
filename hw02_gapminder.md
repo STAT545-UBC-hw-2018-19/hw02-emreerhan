@@ -166,10 +166,8 @@ The minimum `gdpPercap` is 241.17 and the maximum is
 
 ``` r
 ggplot(gapminder, aes(gdpPercap)) +
-  geom_histogram()
+  geom_histogram(bins=25)
 ```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](hw02_gapminder_files/figure-gfm/unnamed-chunk-13-1.png)<!-- --> The
 distribution decays exponentially.
@@ -190,3 +188,93 @@ sd(gapminder$gdpPercap)
 The standard deviation is 9857.455
 
 ### Exploring various plot types
+
+``` r
+gapminder %>%
+  ggplot(aes(gdpPercap, lifeExp)) +
+  scale_x_log10() + 
+  geom_point()
+```
+
+![](hw02_gapminder_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+``` r
+gapminder %>%
+  ggplot(aes(lifeExp)) +
+  geom_histogram()
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](hw02_gapminder_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+``` r
+gapminder %>%
+  ggplot(aes(continent, lifeExp)) +
+  geom_boxplot()
+```
+
+![](hw02_gapminder_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+\#\#\# Using `select` and `filter` with piping into `ggplot`
+
+``` r
+gapminder %>%
+  select(c(continent, gdpPercap, year)) %>%
+  filter(year %in% 1960:1980) %>%
+  ggplot(aes(continent, gdpPercap)) +
+  scale_y_log10() +
+  geom_boxplot()
+```
+
+![](hw02_gapminder_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+``` r
+gapminder %>%
+  select(c(country, pop, gdpPercap, year)) %>%
+  filter(gdpPercap > mean(gdpPercap)+2.5*sd(gdpPercap)) %>%
+  filter(year == 1997) %>%
+  ggplot(aes(country, pop)) +
+  geom_point()
+```
+
+![](hw02_gapminder_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+\#\#\# But I want to do more\!
+
+``` r
+filter(gapminder, country == c("Rwanda", "Afghanistan"))
+```
+
+    ## # A tibble: 12 x 6
+    ##    country     continent  year lifeExp      pop gdpPercap
+    ##    <fct>       <fct>     <int>   <dbl>    <int>     <dbl>
+    ##  1 Afghanistan Asia       1957    30.3  9240934      821.
+    ##  2 Afghanistan Asia       1967    34.0 11537966      836.
+    ##  3 Afghanistan Asia       1977    38.4 14880372      786.
+    ##  4 Afghanistan Asia       1987    40.8 13867957      852.
+    ##  5 Afghanistan Asia       1997    41.8 22227415      635.
+    ##  6 Afghanistan Asia       2007    43.8 31889923      975.
+    ##  7 Rwanda      Africa     1952    40    2534927      493.
+    ##  8 Rwanda      Africa     1962    43    3051242      597.
+    ##  9 Rwanda      Africa     1972    44.6  3992121      591.
+    ## 10 Rwanda      Africa     1982    46.2  5507565      882.
+    ## 11 Rwanda      Africa     1992    23.6  7290203      737.
+    ## 12 Rwanda      Africa     2002    43.4  7852401      786.
+
+``` r
+filter(gapminder, country=='Rwanda' | country=='Afghanistan')
+```
+
+    ## # A tibble: 24 x 6
+    ##    country     continent  year lifeExp      pop gdpPercap
+    ##    <fct>       <fct>     <int>   <dbl>    <int>     <dbl>
+    ##  1 Afghanistan Asia       1952    28.8  8425333      779.
+    ##  2 Afghanistan Asia       1957    30.3  9240934      821.
+    ##  3 Afghanistan Asia       1962    32.0 10267083      853.
+    ##  4 Afghanistan Asia       1967    34.0 11537966      836.
+    ##  5 Afghanistan Asia       1972    36.1 13079460      740.
+    ##  6 Afghanistan Asia       1977    38.4 14880372      786.
+    ##  7 Afghanistan Asia       1982    39.9 12881816      978.
+    ##  8 Afghanistan Asia       1987    40.8 13867957      852.
+    ##  9 Afghanistan Asia       1992    41.7 16317921      649.
+    ## 10 Afghanistan Asia       1997    41.8 22227415      635.
+    ## # ... with 14 more rows

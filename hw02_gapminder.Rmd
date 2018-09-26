@@ -94,7 +94,7 @@ The minimum `gdpPercap` is 241.17 and the maximum is 113523.13
 #### What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
 ```{r}
 ggplot(gapminder, aes(gdpPercap)) +
-  geom_histogram()
+  geom_histogram(bins=25)
 ```
 The distribution decays exponentially.
 ```{r}
@@ -107,3 +107,44 @@ sd(gapminder$gdpPercap)
 The standard deviation is 9857.455
 
 ### Exploring various plot types
+```{r}
+gapminder %>%
+  ggplot(aes(gdpPercap, lifeExp)) +
+  scale_x_log10() + 
+  geom_point()
+```
+```{r}
+gapminder %>%
+  ggplot(aes(lifeExp)) +
+  geom_histogram()
+```
+```{r}
+gapminder %>%
+  ggplot(aes(continent, lifeExp)) +
+  geom_boxplot()
+```
+### Using `select` and `filter` with piping into `ggplot`
+
+```{r}
+gapminder %>%
+  select(c(continent, gdpPercap, year)) %>%
+  filter(year %in% 1960:1980) %>%
+  ggplot(aes(continent, gdpPercap)) +
+  scale_y_log10() +
+  geom_boxplot()
+```
+```{r}
+gapminder %>%
+  select(c(country, pop, gdpPercap, year)) %>%
+  filter(gdpPercap > mean(gdpPercap)+2.5*sd(gdpPercap)) %>%
+  filter(year == 1997) %>%
+  ggplot(aes(country, pop)) +
+  geom_point()
+```
+### But I want to do more!
+```{r}
+filter(gapminder, country == c("Rwanda", "Afghanistan"))
+```
+```{r}
+filter(gapminder, country=='Rwanda' | country=='Afghanistan')
+```
